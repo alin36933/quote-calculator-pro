@@ -1,0 +1,52 @@
+---
+name: TradeCalc Pro iOS Build
+trigger: push
+branch: main
+workflow:
+  name: iOS Release Build
+  environment:
+    xcode: latest
+    node: 20
+    vars:
+      EXPO_CLI_PACKETAGE: "expo-cli"
+      EXPO_SDK_VERSION: "52"
+    groups:
+      - app_store_credentials # Apple ID & App-specific password
+      - certificates           # Distribution certificate & provisioning profile
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm install
+          npx expo install
+      - name: Run Expo Prebuild
+        script: |
+          npx expo prebuild --platform ios --clean
+      - name: Set code signing properties
+        script: |
+          keychain initialize
+          APP_ID=$(jq -r '.expo.ios.bundleIdentifier' app.json)
+          echo "Bundle ID: $APP_ID"
+          xcode-project use-profiles
+      - name: Build IPA (App Store)
+        script: |
+          xcode-project build-ipa \
+            --workspace "ios/TradeCalcPro.xcworkspace" \
+            scheme "TradeCalcPro" \
+            export_method "app-store"
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      scripts:
+        - name: Upload to App Store Connect
+          script: |
+            APP_STORE_CONNECT_API_KEY_JSON=$(cat <<EOF
+            $APP_STORE_CONNECT_API_KEY
+            EOF
+            )
+            echo "$APP_STORE_CONNECT_API_KEY_JSON" > api_key.json
+            xcrun altool --upload-app \
+              --type ios \
+              --file build/ios/ipa/*.ipa \
+              --apiKey $APP_STORE_CONNECT_KEY_ID \
+              --apiIssuer $APP_STORE_CONNECT_ISSUER_ID || \
+            echo "Manual upload may be needed"

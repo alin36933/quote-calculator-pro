@@ -1,0 +1,1 @@
+{"extends": "expo/babel.config.js"}
