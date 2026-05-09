@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 
 interface CalculatorItem {
   id: string;
+  route: string;  // 实际文件路径，如 '/calculator-electrician'
   title: string;
   subtitle: string;
   icon: string;
@@ -15,6 +16,7 @@ interface CalculatorItem {
 const calculators: CalculatorItem[] = [
   {
     id: 'wire-gauge',
+    route: '/calculator-electrician',
     title: 'Wire Gauge Calculator',
     subtitle: 'AWG sizing, ampacity & voltage drop',
     icon: 'flash-outline',
@@ -23,6 +25,7 @@ const calculators: CalculatorItem[] = [
   },
   {
     id: 'conduit-fill',
+    route: '/calculator-conduit',
     title: 'Conduit Fill Calculator',
     subtitle: 'NEC standard conduit fill rates',
     icon: 'grid-outline',
@@ -31,6 +34,7 @@ const calculators: CalculatorItem[] = [
   },
   {
     id: 'voltage-drop',
+    route: '/calculator-voltagedrop',
     title: 'Voltage Drop Calc',
     subtitle: 'Calculate voltage drop per NEC',
     icon: 'trending-down-outline',
@@ -39,6 +43,7 @@ const calculators: CalculatorItem[] = [
   },
   {
     id: 'welding-param',
+    route: '/calculator-welding',
     title: 'Welding Parameter Calc',
     subtitle: 'Amperage, gas flow & wire speed',
     icon: 'flame-outline',
@@ -47,6 +52,7 @@ const calculators: CalculatorItem[] = [
   },
   {
     id: 'pipe-sizing',
+    route: '/calculator-plumbing',
     title: 'Pipe Sizing Calculator',
     subtitle: 'Flow rate, velocity & pressure',
     icon: 'water-outline',
@@ -55,6 +61,7 @@ const calculators: CalculatorItem[] = [
   },
   {
     id: 'hvac-duct',
+    route: '/calculator-hvac',
     title: 'HVAC Duct Calculator',
     subtitle: 'CFM, friction & duct sizing',
     icon: 'cloud-outline',
@@ -74,13 +81,10 @@ export default function HomeScreen() {
 
   const handlePress = (calc: CalculatorItem) => {
     if (calc.isPro && !isPremium) {
-      router.push('/premium');
+      router.push('/pro-paywall');
       return;
     }
-    router.push({
-      pathname: '/calculator/[id]',
-      params: { id: calc.id, title: calc.title },
-    });
+    router.push(calc.route);
   };
 
   return (

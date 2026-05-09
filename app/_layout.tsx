@@ -20,12 +20,36 @@ export default function RootLayout() {
           options={{ title: 'TradeCalc Pro' }}
         />
         <Stack.Screen
-          name="calculator/[id]"
-          options={({ route }) => ({ title: route.params?.title || 'Calculator' })}
+          name="pro-paywall"
+          options={{ title: 'Go Premium' }}
         />
         <Stack.Screen
-          name="premium"
-          options={{ title: 'Go Premium' }}
+          name="settings"
+          options={{ title: 'Settings' }}
+        />
+        <Stack.Screen
+          name="calculator-electrician"
+          options={{ title: 'Wire Gauge Calculator' }}
+        />
+        <Stack.Screen
+          name="calculator-conduit"
+          options={{ title: 'Conduit Fill' }}
+        />
+        <Stack.Screen
+          name="calculator-voltagedrop"
+          options={{ title: 'Voltage Drop' }}
+        />
+        <Stack.Screen
+          name="calculator-welding"
+          options={{ title: 'Welding Parameters' }}
+        />
+        <Stack.Screen
+          name="calculator-plumbing"
+          options={{ title: 'Pipe Sizing' }}
+        />
+        <Stack.Screen
+          name="calculator-hvac"
+          options={{ title: 'HVAC Duct' }}
         />
       </Stack>
     </View>

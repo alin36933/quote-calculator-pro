@@ -5,14 +5,14 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Dimensions } fr
 const { width } = Dimensions.get('window');
 
 const FEATURES = [
-  { icon: '🔌', text: 'Electrician Calculators', included: true },
-  { icon: '📡', text: 'Conduit Fill Calculator (NEC)', included: true },
-  { icon: '⚡', text: 'Voltage Drop Calculator', included: false },
-  { icon: '🔥', text: 'Welding Parameter Calculator', included: false },
-  { icon: '🚿', text: 'Plumbing Flow & Sizing', included: false },
-  { icon: '💨', text: 'HVAC Duct Sizer (CFM)', included: false },
-  { icon: '📊', text: 'Save & Export Results', included: false },
-  { icon: '🚫', text: 'No Ads - Ever', included: false },
+  { icon: '[E]', text: 'Electrician Calculators', included: true },
+  { icon: '[C]', text: 'Conduit Fill Calculator (NEC)', included: true },
+  { icon: '[V]', text: 'Voltage Drop Calculator', included: false },
+  { icon: '[W]', text: 'Welding Parameter Calculator', included: false },
+  { icon: '[P]', text: 'Plumbing Flow & Sizing', included: false },
+  { icon: '[H]', text: 'HVAC Duct Sizer (CFM)', included: false },
+  { icon: '[S]', text: 'Save & Export Results', included: false },
+  { icon: '[A]', text: 'No Ads - Ever', included: false },
 ];
 
 const PLANS = [
@@ -55,7 +55,7 @@ export default function ProPaywall() {
           <View key={i} style={styles.featureRow}>
             <Text style={styles.featureIcon}>{f.icon}</Text>
             <Text style={[styles.featureText, !f.included && styles.featureDim]}>{f.text}</Text>
-            <Text style={styles.featureCheck}>{f.included ? '✅' : '🔒'}</Text>
+            <Text style={styles.featureCheck}>{f.included ? '[OK]' : '[X]'}</Text>
           </View>
         ))}
       </View>
@@ -84,7 +84,7 @@ export default function ProPaywall() {
                 <Text style={styles.planPeriod}>{plan.period}</Text>
               </View>
             </View>
-            <View style={[styles.radio, selected === plan.id && { borderColor: CONFIG => CONFIG.color || '#3498DB' }]}>
+            <View style={[styles.radio, selected === plan.id && { borderColor: '#3498DB' }]}>
               {selected === plan.id && <View style={styles.radioDot} />}
             </View>
           </TouchableOpacity>
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 11,
   },
-  planCardSelected: { borderColor: '#3498DB', bg: '#F0F7FF' },
+  planCardSelected: { borderColor: '#3498DB', backgroundColor: '#F0F7FF' },
   planPopular: { position: 'relative', overflow: 'hidden' },
   popularBadge: {
     position: 'absolute',
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  radioDot: { width: 12, height: 12, borderRadius: 6, bg: '#3498DB' },
+  radioDot: { width: 12, height: 12, borderRadius: 6, backgroundColor: '#3498DB' },
   purchaseButton: {
     backgroundColor: '#3498DB',
     borderRadius: 14,
