@@ -100,7 +100,7 @@ export default function HomeScreen() {
         {!isPremium && (
           <TouchableOpacity
             style={styles.proBanner}
-            onPress={() => router.push('/premium')}
+            onPress={() => router.push('/pro-paywall')}
             activeOpacity={0.8}
           >
             <View style={styles.proBannerLeft}>

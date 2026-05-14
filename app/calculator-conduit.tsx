@@ -1,7 +1,8 @@
 // Conduit Fill Calculator - NEC Chapter 9
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, Picker } from 'react-native';
+import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Picker } from '@react-native-picker/picker';
 import { styles } from '../constants/styles';
 
 const CONDUIT_TYPES = [
@@ -255,9 +256,9 @@ export default function ConduitFillCalculator() {
                 result.status === 'overfill' ? { color: '#FF3B30' } :
                 result.status === 'warning' ? { color: '#FF9500' } : { color: '#34C759' }
               ]}>
-                {result.status === 'ok' ? '✅ Within NEC limit (≤40%)' :
-                 result.status === 'warning' ? '⚠️ Approaching limit — consider larger conduit' :
-                 ❌ Overfilled! Select a larger trade size or reduce conductors'}
+                {result.status === 'ok' ? 'OK: Within NEC limit (<=40%)' :
+                 result.status === 'warning' ? 'WARNING: Approaching limit - consider larger conduit' :
+                 'FAIL: Overfilled! Select a larger trade size or reduce conductors'}
               </Text>
             </View>
           </View>
@@ -266,5 +267,3 @@ export default function ConduitFillCalculator() {
     </SafeAreaView>
   );
 }
-
-import { TouchableOpacity } from 'react-native';

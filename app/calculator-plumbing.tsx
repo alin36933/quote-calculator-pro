@@ -1,7 +1,8 @@
 // Plumbing / Pipe Flow & Sizing Calculator — Based on IPC & ASHRAE standards
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, Picker } from 'react-native';
+import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Picker } from '@react-native-picker/picker';
 import { styles } from '../constants/styles';
 
 const PIPE_TYPES = [
@@ -157,7 +158,7 @@ export default function PlumbingCalculator() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        <Text style={styles.screenTitle}>🚿 Plumbing Calculator</Text>
+        <Text style={styles.screenTitle}>Plumbing Calculator</Text>
         <Text style={styles.screenSubtitle}>Pipe Flow, Sizing & Pressure Drop</Text>
 
         {/* Mode toggle */}
@@ -249,10 +250,10 @@ export default function PlumbingCalculator() {
                 {result.velocity} <Text style={{ fontSize: 18 }}>ft/s</Text>
               </Text>
               <Text style={{ color: '#666', fontSize: 11, marginTop: 2 }}>
-                {result.velocity < 4 ? '⚠️ Below min 4 ft/s — risk of sediment buildup' :
-                 result.velocity > 10 ? '🔴 Excessive velocity — noise & erosion!' :
-                 result.velocity > 7 ? '🟡 High — acceptable but may be noisy' :
-                 '✅ Ideal range'}
+                {result.velocity < 4 ? 'WARN: Below min 4 ft/s - risk of sediment buildup' :
+                 result.velocity > 10 ? 'FAIL: Excessive velocity - noise & erosion!' :
+                 result.velocity > 7 ? 'CAUTION: High - acceptable but may be noisy' :
+                 'OK: Ideal range'}
               </Text>
             </View>
 
@@ -283,10 +284,10 @@ export default function PlumbingCalculator() {
         <View style={[styles.section, { marginTop: 8 }]}>
           <Text style={styles.sectionTitle}>Velocity Guidelines</Text>
           {[
-            ['Water supply lines', '4–8 ft/s', '✅'],
-            ['Fire protection systems', '10–15 ft/s', '⚡'],
-            ['Suction piping', '3–5 ft/s', '🔽'],
-            ['Gas lines', '20–40 ft/s', '💨'],
+            ['Water supply lines', '4-8 ft/s', 'OK'],
+            ['Fire protection systems', '10-15 ft/s', 'CAUTION'],
+            ['Suction piping', '3-5 ft/s', 'LOW'],
+            ['Gas lines', '20-40 ft/s', 'HIGH'],
             ['Drainage (gravity)', '> 2 ft/s', '🌊'],
           ].map(([use, range, icon]) => (
             <View key={use} style={styles.referenceRow}>
@@ -299,5 +300,3 @@ export default function PlumbingCalculator() {
     </SafeAreaView>
   );
 }
-
-import { TouchableOpacity } from 'react-native';

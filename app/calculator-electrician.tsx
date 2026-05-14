@@ -1,7 +1,8 @@
 // Wire Gauge / Ampacity Calculator - NEC 2023 Standards
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, Picker } from 'react-native';
+import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Picker } from '@react-native-picker/picker';
 import { styles } from '../constants/styles';
 
 const MATERIALS = [
@@ -89,7 +90,7 @@ export default function ElectricianCalculator() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        <Text style={styles.screenTitle}>⚡ Electrician Calculator</Text>
+        <Text style={styles.screenTitle}>Electrician Calculator</Text>
         <Text style={styles.screenSubtitle}>NEC 2023 — Wire Ampacity & Sizing</Text>
 
         <View style={styles.section}>
@@ -209,5 +210,3 @@ export default function ElectricianCalculator() {
     </SafeAreaView>
   );
 }
-
-import { TouchableOpacity } from 'react-native';

@@ -5,7 +5,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 
 const CONFIG = {
   title: 'HVAC Duct Sizer',
   subtitle: 'CFM • Velocity • Friction',
-  icon: '💨',
+  icon: '[H]',
   color: '#9B59B6',
 };
 
@@ -34,7 +34,7 @@ export default function CalculatorHVAC() {
       `Duct Area: ${area.toFixed(3)} ft²`,
       `Air Flow: ${cfm.toFixed(1)} CFM`,
       `Friction Loss: ${friction.toFixed(4)} "WC per 100ft`,
-      v > 900 ? '⚠️ High velocity!' : '✅ Velocity acceptable',
+      v > 900 ? 'WARNING: High velocity!' : 'OK: Velocity acceptable',
     ]);
     setHistory([`CFM: ${cfm.toFixed(1)}`, ...history].slice(0, 8));
   };
@@ -45,7 +45,7 @@ export default function CalculatorHVAC() {
     if (c <= 0 || w <= 0 || h <= 0) return alert('Values must be > 0');
     const area = (w * h) / 144;
     const vel = c / area;
-    setResults([`Duct Area: ${area.toFixed(3)} ft²`, `Velocity: ${vel.toFixed(1)} FPM`, vel > 900 ? '⚠️ High!' : '✅ Normal']);
+    setResults([`Duct Area: ${area.toFixed(3)} ft2`, `Velocity: ${vel.toFixed(1)} FPM`, vel > 900 ? 'WARNING: High!' : 'OK: Normal']);
     setHistory([`Vel: ${vel.toFixed(1)} FPM`, ...history].slice(0, 8));
   };
 
@@ -133,27 +133,27 @@ export default function CalculatorHVAC() {
 }
 
 const s = StyleSheet.create({
-  wrap: { flex: 1, bg: '#F5F5F5' },
+  wrap: { flex: 1, backgroundColor: '#F5F5F5' },
   head: { paddingTop: 60, paddingBottom: 24, alignItems: 'center' },
   icon: { fontSize: 40, marginBottom: 8 },
   title: { fontSize: 24, fontWeight: 'bold', color: '#FFF' },
   sub: { fontSize: 14, color: 'rgba(255,255,255,0.85)', marginTop: 4 },
-  tabs: { flexDirection: 'row', padding: 12, gap: 8, bg: '#FFF' },
-  tab: { flex: 1, paddingVertical: 10, borderRadius: 8, bg: '#E8E8E8', alignItems: 'center' },
-  tabOn: { bg: CONFIG => CONFIG.color },
+  tabs: { flexDirection: 'row', padding: 12, gap: 8, backgroundColor: '#FFF' },
+  tab: { flex: 1, paddingVertical: 10, borderRadius: 8, backgroundColor: '#E8E8E8', alignItems: 'center' },
+  tabOn: { backgroundColor: '#9B59B6' },
   tabTxt: { fontSize: 13, color: '#666', fontWeight: '600' },
   tabTxtOn: { color: '#FFF' },
   scroll: { flex: 1 },
-  field: { bg: '#FFF', borderRadius: 12, padding: 14, marginBottom: 12 },
+  field: { backgroundColor: '#FFF', borderRadius: 12, padding: 14, marginBottom: 12 },
   label: { fontSize: 14, color: '#333', fontWeight: '600', marginBottom: 6 },
   input: { borderWidth: 1, borderColor: '#DDD', borderRadius: 8, paddingHorizontal: 14, paddingVertical: 11, fontSize: 16, color: '#333' },
   hint: { fontSize: 12, color: '#999', marginTop: 6 },
   btn: { borderRadius: 12, paddingVertical: 15, alignItems: 'center', marginTop: 8, marginBottom: 20 },
   btnTxt: { color: '#FFF', fontSize: 17, fontWeight: 'bold' },
-  resCard: { bg: '#FFF', borderRadius: 12, padding: 18, marginBottom: 16, borderLeftWidth: 5, borderLeftColor: CONFIG => CONFIG.color },
+  resCard: { backgroundColor: '#FFF', borderRadius: 12, padding: 18, marginBottom: 16, borderLeftWidth: 5, borderLeftColor: '#9B59B6' },
   resTitle: { fontSize: 17, fontWeight: 'bold', color: '#333', marginBottom: 10 },
   resLine: { fontSize: 15, color: '#444', marginVertical: 3, lineHeight: 22 },
-  histCard: { bg: '#FAFAFA', borderRadius: 12, padding: 16, marginTop: 8 },
+  histCard: { backgroundColor: '#FAFAFA', borderRadius: 12, padding: 16, marginTop: 8 },
   histTitle: { fontSize: 15, fontWeight: 'bold', color: '#888', marginBottom: 8 },
   histLine: { fontSize: 13, color: '#AAA', marginVertical: 2 },
 });

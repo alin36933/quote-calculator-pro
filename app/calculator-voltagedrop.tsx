@@ -1,7 +1,8 @@
 // Voltage Drop Calculator — NEC recommended max 3% for branch circuits, 5% total
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, Picker } from 'react-native';
+import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Picker } from '@react-native-picker/picker';
 import { styles } from '../constants/styles';
 
 const MATERIALS = [
@@ -64,13 +65,13 @@ export default function VoltageDropCalculator() {
     if (vDropPercent <= 2) {
       recommendation = 'Excellent! Well under NEC 3% recommendation.';
     } else if (vDropPercent <= 3) {
-      recommendation = '✅ Acceptable — within NEC 3% branch circuit limit.';
+      recommendation = 'OK: Acceptable - within NEC 3% branch circuit limit.';
     } else if (vDropPercent <= 5) {
-      recommendation = '⚠️ Exceeds 3% but within 5% total limit. Consider upsizing.';
+      recommendation = 'WARNING: Exceeds 3% but within 5% total limit. Consider upsizing.';
     } else if (vDropPercent <= 8) {
-      recommendation = '❌ Exceeds NEC recommendations. Increase wire size.';
+      recommendation = 'FAIL: Exceeds NEC recommendations. Increase wire size.';
     } else {
-      recommendation = '🔴 Critical voltage drop! Immediate wire upgrade required.';
+      recommendation = 'CRITICAL: Voltage drop! Immediate wire upgrade required.';
     }
 
     setResult({ vDrop: Math.round(vDrop * 100) / 100, vDropPercent: Math.round(vDropPercent * 100) / 100, supplyVoltage: V, loadVoltage: Math.round(loadVoltage * 100) / 100, recommendation });
@@ -102,7 +103,7 @@ export default function VoltageDropCalculator() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        <Text style={styles.screenTitle}>⚡ Voltage Drop Calculator</Text>
+        <Text style={styles.screenTitle}>Voltage Drop Calculator</Text>
         <Text style={styles.screenSubtitle}>NEC Recommendation: Max 3% Branch Circuit</Text>
 
         <View style={[styles.row, styles.section]}>
@@ -228,7 +229,7 @@ export default function VoltageDropCalculator() {
         {/* Quick reference */}
         <View style={[styles.section, { marginTop: 8 }]}>
           <Text style={styles.sectionTitle}>Common Scenarios</Text>
-          {[['120V/15A/100ft/AWG14', '~5.8% ❌'], ['120V/20A/100ft/AWG12', '~3.3% ⚠️'], ['240V/30A/150ft/AWG10', '~1.8% ✅'], ['240V/40A/200ft/AWG8', '~1.6% ✅']].map(([scenario, verdict]) => (
+          {[['120V/15A/100ft/AWG14', '~5.8% FAIL'], ['120V/20A/100ft/AWG12', '~3.3% WARN'], ['240V/30A/150ft/AWG10', '~1.8% OK'], ['240V/40A/200ft/AWG8', '~1.6% OK']].map(([scenario, verdict]) => (
             <View key={scenario} style={styles.referenceRow}>
               <Text style={styles.referenceLabel} numberOfLines={1}>{scenario}</Text>
               <Text style={styles.referenceValue}>{verdict}</Text>
@@ -239,5 +240,3 @@ export default function VoltageDropCalculator() {
     </SafeAreaView>
   );
 }
-
-import { TouchableOpacity } from 'react-native';

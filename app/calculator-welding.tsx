@@ -1,7 +1,8 @@
 // Welding Parameter Calculator — SMAW, GMAW, GTAW
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, Picker } from 'react-native';
+import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Picker } from '@react-native-picker/picker';
 import { styles } from '../constants/styles';
 
 const WELDING_PROCESSES = [
@@ -99,7 +100,7 @@ export default function WeldingCalculator() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        <Text style={styles.screenTitle}>🔥 Welding Parameter Calc</Text>
+        <Text style={styles.screenTitle}>Welding Parameter Calc</Text>
         <Text style={styles.screenSubtitle}>AWS Recommended Settings</Text>
 
         <View style={styles.section}>
@@ -183,7 +184,7 @@ export default function WeldingCalculator() {
 
             <View style={styles.infoBox}>
               <Text style={styles.infoText}>
-                💡 Always fine-tune within the recommended range based on joint configuration, position, and fit-up quality.
+                TIP: Always fine-tune within the recommended range based on joint configuration, position, and fit-up quality.
                 {'\n'}Start at the lower end of the amperage range and adjust upward.
               </Text>
             </View>
@@ -214,7 +215,7 @@ export default function WeldingCalculator() {
 
         {/* Quick Tips */}
         <View style={[styles.section, { marginTop: 12, padding: 14 }]}>
-          <Text style={{ color: '#FF9500', fontSize: 14, fontWeight: 'bold', marginBottom: 8 }}>⚡ Pro Tips</Text>
+          <Text style={{ color: '#FF9500', fontSize: 14, fontWeight: 'bold', marginBottom: 8 }}>Pro Tips</Text>
           {[
             'Clean the base metal before welding — contamination causes porosity.',
             'For out-of-position work, reduce amperage by 10-15% to control puddle.',
