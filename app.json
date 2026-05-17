@@ -1,1 +1,42 @@
-{"expo": {"name": "TradeCalc Pro", "slug": "trade-calc-pro", "version": "1.0.0", "orientation": "portrait", "icon": "./assets/icon.png", "scheme": "tradecalcpro", "userInterfaceStyle": "automatic", "splash": {"image": "./assets/splash-icon.png", "resizeMode": "contain", "backgroundColor": "#0f172a"}, "ios": {"supportsTablet": true, "bundleIdentifier": "com.quotecalculator.pro", "buildNumber": "1", "infoPlist": {"NSCameraUsageDescription": "This app does not use camera."}}, "android": {"adaptiveIcon": {"foregroundImage": "./assets/adaptive-icon.png", "backgroundColor": "#0f172a"}, "package": "com.quotecalculator.pro", "versionCode": 1}, "web": {"bundler": "metro", "output": "static", "favicon": "./assets/favicon.png"}, "plugins": [], "extra": {"router": {"origin": false}, "ease": {"customScopes": null}}}}
+{
+  "expo": {
+    "name": "专业报价计算器 Pro",
+    "slug": "quote-calculator-pro",
+    "version": "1.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": false,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a1a2e"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.quotecalculator.pro",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1a1a2e"
+      },
+      "package": "com.quotecalculator.pro"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-asset",
+      "expo-font"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "3490cb9b-ba7a-4508-8ce8-2071524ce407"
+      }
+    }
+  }
+}

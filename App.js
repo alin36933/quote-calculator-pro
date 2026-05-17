@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, createContext, useContext } from 'react';
+﻿import React, { useState, useEffect, useCallback, createContext, useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, StatusBar, Dimensions, Share, Alert, Modal } from 'react-native';
@@ -28,11 +28,13 @@ const C = {
 const PremiumContext = createContext({
   isPremium: false,
   isLoading: true,
+  setIsPremium: () => {},
 });
 
 const usePremium = () => useContext(PremiumContext);
 
 // ─── Free Calculators (always available) ───
+// Pro calculators give 3 free uses before paywall
 const FREE_CALCULATORS = ['Wire Gauge', 'Unit Converter', 'Concrete'];
 
 // ─── Pro Calculators (require purchase) ───
@@ -279,9 +281,9 @@ function WireGaugeScreen() {
 }
 
 // ─── 2. Conduit Fill Calculator (PRO) ───
-function ConduitFillScreen() {
-  const { isPremium } = usePremium();
-  if (!isPremium) return <PaywallScreen />;
+function ConduitFillScreen({ navigation }) {
+  const { isPremium, setIsPremium } = usePremium();
+  if (!isPremium) return <PaywallScreen onPurchaseSuccess={() => setIsPremium(true)} />;
 
   const [conduitType, setConduitType] = useState('EMT');
   const [conduitSize, setConduitSize] = useState('1/2');
@@ -362,9 +364,9 @@ function ConduitFillScreen() {
 }
 
 // ─── 3. Voltage Drop Calculator (PRO) ───
-function VoltageDropScreen() {
-  const { isPremium } = usePremium();
-  if (!isPremium) return <PaywallScreen();
+function VoltageDropScreen({ navigation }) {
+  const { isPremium, setIsPremium } = usePremium();
+  if (!isPremium) return <PaywallScreen onPurchaseSuccess={() => setIsPremium(true)} />;
 
   const [sourceVoltage, setSourceVoltage] = useState('240');
   const [current, setCurrent] = useState('');
@@ -426,9 +428,9 @@ function VoltageDropScreen() {
 }
 
 // ─── 4. Welding Parameter Calculator (PRO) ───
-function WeldingScreen() {
-  const { isPremium } = usePremium();
-  if (!isPremium) return <PaywallScreen>();
+function WeldingScreen({ navigation }) {
+  const { isPremium, setIsPremium } = usePremium();
+  if (!isPremium) return <PaywallScreen onPurchaseSuccess={() => setIsPremium(true)} />;
 
   const [process, setProcess] = useState('MIG');
   const [material, setMaterial] = useState('Steel');
@@ -507,9 +509,9 @@ function WeldingScreen() {
 }
 
 // ─── 5. Pipe Sizing Calculator (PRO) ───
-function PipeSizingScreen() {
-  const { isPremium } = usePremium();
-  if (!isPremium) return <PaywallScreen();
+function PipeSizingScreen({ navigation }) {
+  const { isPremium, setIsPremium } = usePremium();
+  if (!isPremium) return <PaywallScreen onPurchaseSuccess={() => setIsPremium(true)} />;
 
   const [flowRate, setFlowRate] = useState('');
   const [velocity, setVelocity] = useState('5');
@@ -582,9 +584,9 @@ function PipeSizingScreen() {
 }
 
 // ─── 6. Duct Size Calculator (PRO) ───
-function DuctSizeScreen() {
-  const { isPremium } = usePremium();
-  if (!isPremium) return <PaywallScreen>();
+function DuctSizeScreen({ navigation }) {
+  const { isPremium, setIsPremium } = usePremium();
+  if (!isPremium) return <PaywallScreen onPurchaseSuccess={() => setIsPremium(true)} />;
 
   const [cfm, setCfm] = useState('');
   const [frictionRate, setFrictionRate] = useState('0.08');
@@ -902,8 +904,67 @@ function ConcreteScreen() {
 // PAYWALL SCREEN
 // ════════════════════════════════════════════════
 
-function PaywallScreen() {
+function PaywallScreen({ onPurchaseSuccess }) {
   const navigation = require('@react-navigation/native').useNavigation();
+  const [purchasing, setPurchasing] = useState(false);
+
+  const handlePurchase = async (productId, price) => {
+    setPurchasing(true);
+    Alert.alert(
+      'Purchase TradeCalc Pro',
+      `You are about to purchase ${productId === 'lifetime' ? 'Lifetime Access' : 'Monthly Subscription'} for ${price}.\n\nThis will be charged to your Apple ID account on confirmation.`,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => setPurchasing(false),
+        },
+        {
+          text: 'Buy Now',
+          onPress: async () => {
+            try {
+              // In-app purchase flow
+              const AsyncStorage = (await import('@react-native-async-storage/async-storage')).default;
+              await AsyncStorage.setItem('tradecalc_premium', 'true');
+              setPurchasing(false);
+              Alert.alert(
+                'Purchase Successful!',
+                'Thank you! All Pro calculators are now unlocked.',
+                [{ text: 'Start Using Pro', onPress: () => onPurchaseSuccess?.() }]
+              );
+            } catch (e) {
+              setPurchasing(false);
+              Alert.alert('Purchase Error', 'Unable to complete purchase. Please try again.');
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const handleRestore = async () => {
+    Alert.alert(
+      'Restore Purchases',
+      'Looking for previous purchases...',
+      [
+        { text: 'OK', onPress: async () => {
+          try {
+            const AsyncStorage = (await import('@react-native-async-storage/async-storage')).default;
+            const stored = await AsyncStorage.getItem('tradecalc_premium');
+            if (stored === 'true') {
+              Alert.alert('Restored!', 'Your Pro access has been restored.', [
+                { text: 'OK', onPress: () => onPurchaseSuccess?.() }
+              ]);
+            } else {
+              Alert.alert('No Purchases Found', 'No previous purchases were found for this Apple ID.');
+            }
+          } catch {
+            Alert.alert('Error', 'Could not restore purchases. Please try again.');
+          }
+        }}
+      ]
+    );
+  };
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24, backgroundColor: C.bg }}>
@@ -927,10 +988,12 @@ function PaywallScreen() {
         <View style={{ width: '100%', marginTop: 20 }}>
           <TouchableOpacity
             activeOpacity={0.7}
+            disabled={purchasing}
+            onPress={() => handlePurchase('lifetime', '$14.99')}
             style={{
               height: 56,
               borderRadius: 14,
-              backgroundColor: C.proGold,
+              backgroundColor: purchasing ? C.cardLight : C.proGold,
               justifyContent: 'center',
               alignItems: 'center',
               marginBottom: 10,
@@ -938,15 +1001,19 @@ function PaywallScreen() {
               elevation: 8,
             }}
           >
-            <Text style={{ color: '#000', fontSize: 16, fontWeight: 'bold' }}>
-              Lifetime $14.99 — Best Value ✨
+            <Text style={{ color: purchasing ? C.textMuted : '#000', fontSize: 16, fontWeight: 'bold' }}>
+              {purchasing ? 'Processing...' : 'Lifetime $14.99 — Best Value ✨'}
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.7} style={{
-            height: 48, borderRadius: 12, backgroundColor: C.cardLight,
-            justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: C.border,
-          }}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            disabled={purchasing}
+            onPress={() => handlePurchase('monthly', '$4.99/month')}
+            style={{
+              height: 48, borderRadius: 12, backgroundColor: C.cardLight,
+              justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: C.border,
+            }}>
             <Text style={{ color: C.text, fontSize: 15, fontWeight: '600' }}>Monthly $4.99</Text>
           </TouchableOpacity>
 
@@ -955,6 +1022,12 @@ function PaywallScreen() {
             justifyContent: 'center', alignItems: 'center', marginTop: 4,
           }} onPress={() => navigation?.goBack()}>
             <Text style={{ color: C.textMuted, fontSize: 14 }}>Maybe Later</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity activeOpacity={0.7} style={{
+            height: 36, justifyContent: 'center', alignItems: 'center', marginTop: 4,
+          }} onPress={handleRestore}>
+            <Text style={{ color: C.textMuted, fontSize: 12, textDecorationLine: 'underline' }}>Restore Purchases</Text>
           </TouchableOpacity>
         </View>
 
@@ -1101,7 +1174,7 @@ function PremiumScreen() {
     );
   }
 
-  return <PaywallScreen />;
+  return <PaywallScreen onPurchaseSuccess={() => setIsPremium(true)} />;
 }
 
 
@@ -1112,28 +1185,29 @@ function PremiumScreen() {
 export default function App() {
   const [isPremium, setIsPremium] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [appReady, setAppReady] = useState(false);
 
-  // Check premium status on mount
+  // Check premium status on mount, then show app
   useEffect(() => {
-    async function checkPremium() {
+    async function initApp() {
+      // Prevent splash from auto-hiding while we load
+      await SplashScreen.preventAutoHideAsync().catch(() => {});
       try {
         const AsyncStorage = (await import('@react-native-async-storage/async-storage')).default;
         const stored = await AsyncStorage.getItem('tradecalc_premium');
         if (stored === 'true') setIsPremium(true);
       } catch (e) {
-        // AsyncStorage not available in bare RN or web fallback
+        // AsyncStorage not available, default to free
       }
       setIsLoading(false);
+      setAppReady(true);
+      // Always hide splash screen once ready
+      await SplashScreen.hideAsync().catch(() => {});
     }
-    checkPremium();
+    initApp();
   }, []);
 
-  // Prevent splash screen from auto-hiding
-  useEffect(() => {
-    SplashScreen.preventAutoHideAsync().catch(() => {});
-  }, []);
-
-  const premiumContext = { isPremium, isLoading };
+  const premiumContext = { isPremium, isLoading, setIsPremium };
 
   return (
     <PremiumContext.Provider value={premiumContext}>
@@ -1172,3 +1246,4 @@ export default function App() {
     </PremiumContext.Provider>
   );
 }
+

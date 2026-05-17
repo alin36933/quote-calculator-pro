@@ -1,0 +1,3 @@
+﻿Nonexistent flag: --latest
+See more help with --help
+    Error: build:view command failed.

@@ -1,0 +1,25 @@
+﻿
+Looking up credentials configuration for com.quotecalculator.pro...
+✔ App Store Connect API Key already set up.
+Using Api Key ID: H2MNLHYWAZ ([Expo] EAS Submit u50dNUy_41)
+
+ASC App ID:                 6762173287
+Project ID:                 3490cb9b-ba7a-4508-8ce8-2071524ce407
+App Store Connect API Key:  
+    Key Name  :  [Expo] EAS Submit u50dNUy_41
+    Key ID    :  H2MNLHYWAZ
+    Key Source:  EAS servers
+Build:                      
+    Build ID    :  8b1eb711-ca41-40b8-9236-f5fc47e05900
+    Build Date  :  2026/5/7 11:40:24
+    App Version :  1.0.0
+    Build number:  27
+
+- Scheduling iOS submission
+✔ Scheduled iOS submission
+
+Submission details: https://expo.dev/accounts/alin369/projects/quote-calculator-pro/submissions/e9fcdd7e-3ad1-4c8a-9520-98dd869494c0
+
+Waiting for submission to complete. You can press Ctrl+C to exit.
+- Submitting
+✖ Something went wrong when submitting your app to Apple App Store Connect.

@@ -17,37 +17,37 @@ export default function Settings() {
         <Section title="DATA">
           <Row icon="💾" label="Saved Calculations" value="12" />
           <TouchableOpacity style={s.row} onPress={() => alert('Exporting...')}>
-            <Text style={s.rowIcon}>📤</Text>
+            <Text style={s.rowIcon}>[>]</Text>
             <Text style={s.rowLabel}>Export All Data</Text>
-            <Text style={s.rowArrow}>›</Text>
+            <Text style={s.rowArrow}>'</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[s.row, { borderBottomWidth: 0 }]} onPress={() => alert('Are you sure?')}>
-            <Text style={s.rowIcon}>🗑️</Text>
+            <Text style={s.rowIcon}>[X]</Text>
             <Text style={[s.rowLabel, { color: '#E74C3C' }]}>Clear All Data</Text>
           </TouchableOpacity>
         </Section>
 
         <Section title="SUBSCRIPTION">
           <TouchableOpacity style={s.row} onPress={() => alert('Manage subscription...')}>
-            <Text style={s.rowIcon}>👑</Text>
+            <Text style={s.rowIcon}>[$]</Text>
             <Text style={s.rowLabel}>Manage Subscription</Text>
-            <Text style={s.rowArrow}>›</Text>
+            <Text style={s.rowArrow}>'</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[s.row, { borderBottomWidth: 0 }]} onPress={() => alert('Restoring...')}>
-            <Text style={s.rowIcon}>🔄</Text>
+            <Text style={s.rowIcon}>[R]</Text>
             <Text style={s.rowLabel}>Restore Purchases</Text>
           </TouchableOpacity>
         </Section>
 
         <Section title="ABOUT">
-          <Row icon="ℹ️" label="Version" value="1.0.0 (Build 1)" />
-          <Row icon="⭐" label="Rate This App" right={<Text style={s.rowArrow}>›</Text>} />
-          <Row icon="📋" label="Privacy Policy" right={<Text style={s.rowArrow}>›</Text>} last />
+          <Row icon="[i]" label="Version" value="1.0.0 (Build 1)" />
+          <Row icon="[*]" label="Rate This App" right={<Text style={s.rowArrow}>'</Text>} />
+          <Row icon="[P]" label="Privacy Policy" right={<Text style={s.rowArrow}>'</Text>} last />
         </Section>
 
         <Text style={s.footer}>
           TradeCalc Pro v1.0.0{'\n'}
-          Made with ❤️ for trade professionals
+          Made with love for trade professionals
         </Text>
       </ScrollView>
     </View>
